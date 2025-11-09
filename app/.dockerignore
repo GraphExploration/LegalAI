@@ -1,0 +1,16 @@
+# ignore frontend and heavy stuff
+../legalai-frontend
+../node_modules
+../venv
+../extra
+../.git
+../*.ipynb
+../*.docx
+../*.pdf
+../__pycache__/
+../*.log
+../build.txt
+__pycache__/
+*.pyc
+*.pyo
+.env
