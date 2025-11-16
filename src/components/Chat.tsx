@@ -4,7 +4,9 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
+// import rehypeHighlight from "rehype-highlight";
+import rehypePrism from "rehype-prism-plus";
+
 import "highlight.js/styles/github-dark.css";
 
 export default function Chat() {
@@ -53,7 +55,7 @@ export default function Chat() {
   }, [messages, isTyping]);
 
   return (
-    // ⬅️ FIXED: `overflow-hidden` prevents main page scroll, `w-full` removes side gaps
+    // `overflow-hidden` prevents main page scroll, `w-full` removes side gaps
     <div className="flex flex-col h-screen w-full overflow-hidden bg-white dark:bg-gray-900">
       
       {/* Header */}
@@ -62,7 +64,7 @@ export default function Chat() {
       </header>
 
       {/* Chat Scrollable Section */}
-      {/* ⬅️ FIXED: Only this section scrolls, not entire screen */}
+      {/* Only this section scrolls, not entire screen */}
       <main className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600">
         {messages.map((msg, index) => (
           <motion.div
@@ -78,7 +80,8 @@ export default function Chat() {
           >
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight]}
+              rehypePlugins={[rehypePrism]}
+              
               skipHtml={false}
               className="prose prose-sm dark:prose-invert max-w-none"
               components={{
@@ -100,16 +103,22 @@ export default function Chat() {
                     {...props}
                   />
                 ),
-                code: ({ inline, ...props }) => (
-                  <code
-                    className={`rounded-md font-mono ${
-                      inline
-                        ? "bg-gray-200 dark:bg-gray-700 px-1"
-                        : "block bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto my-2"
-                    }`}
-                    {...props}
-                  />
-                ),
+                code({node, className, children, ...props}) {
+                  const isInline = !className; // no className = inline code
+              
+                  return (
+                    <code
+                      className={
+                        isInline
+                          ? "rounded-md font-mono bg-gray-200 dark:bg-gray-700 px-1"
+                          : "block bg-gray-900 text-gray-100 p-3 rounded-lg overflow-x-auto my-2"
+                      }
+                      {...props}
+                    >
+                      {children}
+                    </code>
+                  );
+              },
               }}
             >
               {msg.text}
@@ -130,7 +139,7 @@ export default function Chat() {
       </main>
 
       {/* Input Bar */}
-      {/* ⬅️ FIXED: Stays at bottom; doesn't scroll out of view */}
+      {/* Stays at bottom; doesn't scroll out of view */}
       <form
         onSubmit={handleSubmit}
         className="flex items-center p-4 border-t border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
