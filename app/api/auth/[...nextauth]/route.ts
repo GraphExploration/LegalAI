@@ -3,7 +3,19 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 
 export const authOptions: AuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
+  secret:process.env.NEXTAUTH_SECRET,
+  trustHost: true,
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true, // MUST be true for Vercel/HTTPS
+        domain: process.env.VERCEL_URL ? `.${process.env.VERCEL_URL.split('.').slice(-2).join('.')}` : undefined,
+      },
+    }},
   providers: [
     CredentialsProvider({
       name: "Credentials",
