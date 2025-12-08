@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import remarkGfm from "remark-gfm";
 // import rehypeHighlight from "rehype-highlight";
 import rehypePrism from "rehype-prism-plus";
+import { Send } from 'lucide-react';
 
 import "highlight.js/styles/github-dark.css";
 
@@ -27,7 +28,8 @@ export default function Chat() {
     setIsTyping(true);
 
     try {
-      const response = await fetch("http://localhost:8000/chat", {
+      const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8080";
+      const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: input }),
@@ -59,8 +61,8 @@ export default function Chat() {
     <div className="flex flex-col h-screen w-full overflow-hidden bg-white dark:bg-gray-900">
       
       {/* Header */}
-      <header className="bg-blue-600 dark:bg-blue-700 text-white p-4 flex items-center justify-center text-lg font-semibold shadow-md">
-        ⚖️ LegalAI Chat Assistant
+      <header className="bg-blue-900 dark:bg-blue-900 text-white p-4 flex items-center justify-center text-lg font-semibold shadow-md">
+        ⚖️ AgreyaBot Chat Assistant
       </header>
 
       {/* Chat Scrollable Section */}
@@ -74,7 +76,7 @@ export default function Chat() {
             transition={{ duration: 0.2 }}
             className={`p-4 rounded-2xl max-w-[90%] whitespace-pre-wrap shadow-sm ${
               msg.sender === "user"
-                ? "ml-auto bg-blue-600 text-white rounded-br-none"
+                ? "ml-auto bg-blue-900 text-white rounded-br-none"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none"
             }`}
           >
@@ -151,11 +153,20 @@ export default function Chat() {
           placeholder="Ask a legal question..."
           className="flex-1 border rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:text-white"
         />
-        <button
+        {/* <button
           type="submit"
           className="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl transition font-medium"
         >
           Send
+        </button> */}
+        <button
+          type="submit"
+          className="ml-3 bg-blue-800 hover:bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center transition disabled:opacity-90"
+          disabled={!input.trim()}
+          title="Send Message"
+          // Replaced text with icon, made it square/circular button
+        >
+           <Send className="w-5 h-5" /> 
         </button>
       </form>
     </div>

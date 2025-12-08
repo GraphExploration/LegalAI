@@ -15,13 +15,10 @@ export default async function Page() {
 
   // Logged in → show chat UI
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow p-4 text-center font-semibold text-gray-800">
-        ⚖️ LegalAI Chat Assistant
-      </header>
-      <LogoutButton />
+      <div className="h-full w-full bg-gray-100">
 
-      <main className="max-w-3xl mx-auto py-6">
+
+      <main className="h-full">
         <Chat />
       </main>
     </div>
