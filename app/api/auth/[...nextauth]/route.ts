@@ -1,7 +1,9 @@
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
+
 export const authOptions: AuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,7 +14,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         const { email, password } = credentials ?? {}
 
-        if (email === "admin@legalai.com" && password === "Hello@123") {
+        if (email === "admin@legalai.com" && password === "admin@123") {
           return { id: "1", name: "Admin User", email }
         }
 
