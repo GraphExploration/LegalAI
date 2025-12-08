@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions: AuthOptions = {
   secret:process.env.NEXTAUTH_SECRET,
-  trustHost: true,
+  // trustHost: true,
   cookies: {
     sessionToken: {
       name: `__Secure-next-auth.session-token`,
