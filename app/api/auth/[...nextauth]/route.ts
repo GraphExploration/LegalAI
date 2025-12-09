@@ -12,8 +12,8 @@ export const authOptions: AuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: true, // MUST be true for Vercel/HTTPS
-        domain: process.env.VERCEL_URL ? `.${process.env.VERCEL_URL.split('.').slice(-2).join('.')}` : undefined,
+        secure: true // MUST be true for Vercel/HTTPS
+        // domain: process.env.VERCEL_URL ? `.${process.env.VERCEL_URL.split('.').slice(-2).join('.')}` : undefined,
       },
     }},
   providers: [
